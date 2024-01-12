@@ -3,10 +3,279 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-namespace T03_Group2_PRG2Assignment
+//==========================================================
+// Student Number : S10258457
+// Student Name : Yeo Jin Rong
+// Partner Name : Jason Ng
+//=========================================================
+// Done By: Yeo Jin Rong
+namespace T03_Group02_PRG2Assignment
 {
-    internal class Order
+    class Order
     {
+        public int Id { get; set; }
+        public DateTime TimeRecieved { get; set; }
+        public DateTime? TimeFulfilled { get; set; }
+        public List<IceCream> IceCreamList { get; set; }
+
+        public Order()
+        {
+        }
+
+        public Order(int id, DateTime timeReceived)
+        {
+            Id = id;
+            TimeRecieved = timeReceived;
+            TimeFulfilled = null;
+            IceCreamList = new List<IceCream>();
+        }
+
+        public void ModifyIceCream(int iceCreamIndex)
+        {
+            if (iceCreamIndex < 0 || iceCreamIndex >= IceCreamList.Count)
+            {
+                Console.WriteLine("Invalid ice cream index. Please enter a valid number.");
+                return;
+            }
+
+            IceCream existingIceCream = IceCreamList[iceCreamIndex];
+            Console.WriteLine($"Current details of Ice Cream {iceCreamIndex + 1}:");
+            Console.WriteLine(existingIceCream);
+            Console.WriteLine("Enter new details for the Ice Cream:");
+
+            // Create a new ice cream object based on user input
+            string option;
+            do
+            {
+                Console.Write("Choose ice cream option (waffle/cone/cup): ");
+                option = Console.ReadLine().ToLower().Trim();
+
+                if (option != "waffle" && option != "cone" && option != "cup")
+                {
+                    Console.WriteLine("Invalid option. Please enter waffle, cone, or cup.");
+                }
+            } while (option != "waffle" && option != "cone" && option != "cup");
+
+            int scoops;
+            do
+            {
+                Console.Write("Enter number of scoops (up to 3): ");
+                if (!int.TryParse(Console.ReadLine(), out scoops) || scoops < 1 || scoops > 3)
+                {
+                    Console.WriteLine("Invalid input. Please enter a valid number of scoops between 1 and 3.");
+                }
+            } while (scoops < 1 || scoops > 3);
+
+            //Get Flavours
+            List<Flavour> flavours = new List<Flavour>();
+            int numberOfFlavours;
+            int totalQuantity = 0;
+            // Validate number of flavours 1 <= x <= 3, and is int
+            do
+            {
+                Console.Write($"Enter the number of flavours (up to {scoops}) (vanila/chocolate/strawberry/durian/sea salt/ube): ");
+                numberOfFlavours = Convert.ToInt32(Console.ReadLine());
+
+                if (numberOfFlavours > scoops)
+                {
+                    Console.WriteLine("Invalid input. You can only enter up to 3 flavours. Please try again.");
+                }
+            } while (numberOfFlavours > scoops);
+
+            for (int i = 0; i < numberOfFlavours; i++)
+            {
+                Console.Write($"Enter flavour {i + 1} (vanila/chocolate/strawberry/durian/sea salt/ube): ");
+                string flavourType = Console.ReadLine().ToLower().Trim().Replace(" ", "");
+                string[] validFlavours = { "vanilla", "chocolate", "strawberry", "seasalt", "durian", "ube" };
+                string[] premiumFlavours = { "durian", "ube", "seasalt" };
+
+                // Validation to check if a valid flavour and not duplicate
+                if (validFlavours.Contains(flavourType) && !flavours.Any(f => f.Type.Equals(flavourType)))
+                {
+                    //Validate if premium flavour
+                    bool isPremium = premiumFlavours.Contains(flavourType);
+                    //Validate if quantity > 0
+                    int quantity;
+                    do
+                    {
+                        Console.Write($"Enter the quantity (must be greater than 0): ");
+                    } while (!int.TryParse(Console.ReadLine(), out quantity) || quantity <= 0);
+
+                    // Validate no additional scoops
+                    if (totalQuantity + quantity <= scoops)
+                    {
+                        flavours.Add(new Flavour(flavourType, isPremium, quantity));
+                        totalQuantity += quantity;  // Update the total quantity
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Total quantity exceeds the number of scoops. Skipping this flavour.");
+                        i--; // Decrement i to re-enter the current flavour
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"Invalid flavour: {flavourType}. Skipping this flavour.");
+                    i--; // Decrement i to re-enter the current flavour
+                }
+            }
+
+            // Validate that the total quantity of flavours matches the number of scoops
+            if (totalQuantity != scoops)
+            {
+                Console.WriteLine($"Total quantity of flavours ({totalQuantity}) does not match the number of scoops ({scoops}).");
+                flavours.Clear(); // Clear the list if the total quantity is not correct
+            }
+            int totalFlavourQuantity = flavours.Sum(f => f.Quantity);
+            if (scoops != totalFlavourQuantity)
+            {
+                Console.WriteLine($"Error: The number of scoops ({scoops}) does not match the total quantity of flavours ({totalFlavourQuantity}). Ice cream modification aborted.");
+                return;
+            }
+
+            //Get Toppings
+            List<Topping> toppings = new List<Topping>();
+            Console.Write("Enter the number of toppings (up to 4): ");
+            int numberOfToppings = Convert.ToInt32(Console.ReadLine());
+            string[] validToppings = { "sprinkles", "mochi", "sago", "oreos" };
+            for (int i = 0; i < numberOfToppings; i++)
+            {
+                Console.Write($"Enter topping {i + 1} (sprinkles/mochi/sago/oreos): ");
+                string toppingType = Console.ReadLine().ToLower();
+
+                if (validToppings.Contains(toppingType) && !toppings.Any(t => t.Type.Equals(toppingType)))
+                {
+                    toppings.Add(new Topping(toppingType));
+                }
+                else
+                {
+                    Console.WriteLine($"Invalid topping type: {toppingType}. Skipping this topping.");
+                    i--; // Decrement due to invalid option
+                }
+            }
+
+            //Check for subclass type
+            switch (option)
+            {
+                case "waffle":
+                    string waffleFlavour;
+                    string[] validWaffleFlavours = { "plain", "redvelvet", "pandan", "charcoal" };
+                    do
+                    {
+                        Console.Write("Enter waffle flavour (plain, red velvet, charcoal, pandan): ");
+                        waffleFlavour = Console.ReadLine().ToLower().Trim().Replace(" ", "");
+                        if (string.IsNullOrWhiteSpace(waffleFlavour) || validWaffleFlavours.Contains(waffleFlavour))
+                        {
+                            Console.WriteLine("Invalid waffle flavour. Please enter a valid waffle flavour.");
+                        }
+                    } while (string.IsNullOrWhiteSpace(waffleFlavour) || !validWaffleFlavours.Contains(waffleFlavour));
+
+                    IceCream modifiedIceCreamWaffle = new Waffle(option, scoops, flavours, toppings, waffleFlavour);
+                    IceCreamList[iceCreamIndex] = modifiedIceCreamWaffle;
+                    Console.WriteLine("Ice cream modification successful.");
+                    break;
+
+                case "cone":
+                    string dippedInput;
+                    do
+                    {
+                        Console.Write("Is the cone dipped? (Y/N): ");
+                        dippedInput = Console.ReadLine().ToLower().Trim();
+
+                        if (dippedInput != "y" && dippedInput != "n")
+                        {
+                            Console.WriteLine("Invalid input. Please enter y for 'yes' or n for 'no'.");
+                        }
+                    } while (dippedInput != "y" && dippedInput != "n");
+                    bool dipped = dippedInput == "y";
+
+                    IceCream modifiedIceCreamCone = new Cone(option, scoops, flavours, toppings, dipped);
+                    IceCreamList[iceCreamIndex] = modifiedIceCreamCone;
+                    Console.WriteLine("Ice cream modification successful.");
+                    break;
+
+                case "cup":
+                    IceCream modifiedIceCreamCup = new Cup(option, scoops, flavours, toppings);
+                    IceCreamList[iceCreamIndex] = modifiedIceCreamCup;
+                    Console.WriteLine("Ice cream modification successful.");
+                    break;
+
+                default:
+                    Console.WriteLine("Invalid ice cream option. Ice cream modification aborted.");
+                    break;
+            }
+        }
+
+        public void AddIceCream(IceCream iceCream)
+        {
+            switch (iceCream.Option.ToLower())
+            {
+                case "waffle":
+                    IceCreamList.Add((Waffle)iceCream);
+                    break;
+                case "cone":
+                    IceCreamList.Add((Cone)iceCream);
+                    break;
+                case "cup":
+                    IceCreamList.Add((Cup)iceCream);
+                    break;
+                default:
+                    throw new ArgumentException("Invalid ice cream option.");
+            }
+        }
+
+        public void DeleteIceCream(int icecreamno)
+        {
+            if (IceCreamList.Count == 0)
+            {
+                Console.WriteLine("No ice creams in the order to delete.");
+                return;
+            }
+
+            if (icecreamno < 1 || icecreamno > IceCreamList.Count)
+            {
+                Console.WriteLine("Invalid selection. Please enter a valid number.");
+                return;
+            }
+
+            IceCream removedIceCream = IceCreamList[icecreamno - 1];
+            IceCreamList.RemoveAt(icecreamno - 1);
+            Console.WriteLine($"Ice cream removed: {removedIceCream}");
+        }
+
+        public double CalculateTotal()
+        {
+            double totalCost = 0.0;
+            foreach (IceCream iceCream in IceCreamList)
+            {
+                // Dynamic method from waffle, cup and cone
+                totalCost += iceCream.CalculatePrice();
+            }
+            return totalCost;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder orderDetails = new StringBuilder();
+            orderDetails.AppendLine("---------------------------------------------------");
+            orderDetails.AppendLine("Ice Creams:");
+            orderDetails.AppendLine("---------------------------------------------------");
+            int i = 0;
+
+            foreach (IceCream iceCream in IceCreamList)
+            {
+                orderDetails.AppendLine("---------------------------------------------------");
+                orderDetails.AppendLine($"Ice Cream {i + 1}:");
+                orderDetails.AppendLine("---------------------------------------------------");
+                orderDetails.AppendLine(iceCream.ToString());
+                i++;
+            }
+
+            string timeFulfilledString = TimeFulfilled.HasValue ? TimeFulfilled.Value.ToShortDateString() : "Not fulfilled yet";
+            string header = string.Format("{0,-15} {1,-15} {2,-15}", "Order ID", "Time Received", "Time Fulfilled");
+            string orderDetailsFormatted = string.Format("{0,-15} {1,-15} {2,-15}", Id, TimeRecieved.ToShortDateString(), timeFulfilledString);
+
+            return $"{header}\n{orderDetailsFormatted}\n{orderDetails}";
+        }
     }
 }
