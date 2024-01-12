@@ -91,7 +91,6 @@ void DisplayAllCustomers(Dictionary<int, Customer> customers)
     }
 }
 
-
 // Done By: Ng Kai Huat Jason
 // Method to display orders
 void DisplayOrders(Queue<Order> regularQueue, Queue<Order> goldQueue)
@@ -110,7 +109,6 @@ void DisplayOrders(Queue<Order> regularQueue, Queue<Order> goldQueue)
         Console.WriteLine(orders);
     }
 }
-
 
 // Done By: Yeo Jin Rong
 // Method to display menu
@@ -131,7 +129,6 @@ void DisplayMenu()
     }
     Console.WriteLine($"[0]. {menuOptions[9]}");
 }
-
 
 Main();
 Console.Read();
