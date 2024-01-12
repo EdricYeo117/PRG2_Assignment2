@@ -31,7 +31,7 @@ void Main()
         }
         else if (option == "2")
         {
-            // Waiting for Jason's Code
+            DisplayOrders(regularQueue, goldQueue);
         }
         else if (option == "0")
         {
@@ -92,6 +92,26 @@ void DisplayAllCustomers(Dictionary<int, Customer> customers)
 }
 
 
+// Done By: Ng Kai Huat Jason
+// Method to display orders
+void DisplayOrders(Queue<Order> regularQueue, Queue<Order> goldQueue)
+{
+    // Display information for current orders for gold members first
+    Console.WriteLine("Current Orders for Gold Members:");
+    foreach (Order orders in goldQueue)
+    {
+        Console.WriteLine(orders);
+    }
+
+    // Display information for current orders for regular members second
+    Console.WriteLine("\nCurrent Orders for Regular Customers:");
+    foreach (Order orders in regularQueue)
+    {
+        Console.WriteLine(orders);
+    }
+}
+
+
 // Done By: Yeo Jin Rong
 // Method to display menu
 void DisplayMenu()
@@ -111,6 +131,7 @@ void DisplayMenu()
     }
     Console.WriteLine($"[0]. {menuOptions[9]}");
 }
+
 
 Main();
 Console.Read();
