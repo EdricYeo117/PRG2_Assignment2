@@ -47,10 +47,13 @@ void Main()
 }
 // Done By : Yeo Jin Rong
 // Method to pull information from csv file to read customer information
+// Method to initialise customer information from customers.csv
+// Done By: Yeo Jin Rong
 void InitCustomers(Dictionary<int, Customer> customers)
 {
     try
     {
+        // Uses stream reader to parse data from CSV file
         using (StreamReader sr = new StreamReader("customers.csv"))
         {
             // Skip the header line
@@ -60,16 +63,22 @@ void InitCustomers(Dictionary<int, Customer> customers)
             while ((str = sr.ReadLine()) != null)
             {
                 string[] data = str.Split(',');
-
+                // Defining exactly what each column in CSV represents
                 string name = data[0].Trim();
                 int memberId = int.Parse(data[1].Trim());
-                DateTime dob = DateTime.ParseExact(data[2].Trim(), "dd/MM/yyyy", null); // Parses dates properly
+                DateTime dob = DateTime.ParseExact(data[2].Trim(), "dd/MM/yyyy", null);
+                string membershipstatus = data[3].Trim();
+                int memberpoints = int.Parse(data[4].Trim());
+                int punchcard = int.Parse(data[5].Trim());
+                // Create customer object to store customer information
                 Customer customer = new Customer(name, memberId, dob);
-                // Add to dictionary
+                customer.Rewards.Tier = membershipstatus;
+                customer.Rewards.Points = memberpoints;
+                customer.Rewards.PunchCard = punchcard;
                 customers.Add(memberId, customer);
             }
         }
-        Console.Write("Customer successfully added");
+        Console.Write("Customers successfully added");
     }
     catch (Exception ex)
     {
@@ -77,58 +86,71 @@ void InitCustomers(Dictionary<int, Customer> customers)
     }
 }
 
+// Method to display customer details, parameters of Dictionary<int, Customer> used. MemberId is the key, Customer is the value
 // Done By: Yeo Jin Rong
-//Method to display all customers info, as per customer.cs
 void DisplayAllCustomers(Dictionary<int, Customer> customers)
 {
     Console.WriteLine("List of all customers details:");
-    // Print Header
     Console.WriteLine($"{nameof(Customer.Name),-15}\t{nameof(Customer.MemberId),-15}\t{nameof(Customer.DOB),-15}\t{"Points",-15}\t{"Punchcard",-15}\t{"Tier",-15}");
-    // For loop to print each customer
+    // For loop to use customer ToString() method to print out customer details
     foreach (Customer customer in customers.Values)
     {
         Console.WriteLine(customer);
     }
 }
 
+// Method to display customer orders in queue, calling DisplayOrdersInQueue() method, parameters of Queue<Order> used. 
 // Done By: Ng Kai Huat Jason
-// Method to display orders
 void DisplayOrders(Queue<Order> regularQueue, Queue<Order> goldQueue)
 {
-    // Display information for current orders for gold members first
     Console.WriteLine("Current Orders for Gold Members:");
-    foreach (Order orders in goldQueue)
-    {
-        Console.WriteLine(orders);
-    }
+    DisplayOrdersInQueue(goldQueue);
 
-    // Display information for current orders for regular members second
     Console.WriteLine("\nCurrent Orders for Regular Customers:");
-    foreach (Order orders in regularQueue)
+    DisplayOrdersInQueue(regularQueue);
+}
+
+// Method to display order in Queue
+// Done By: Ng Kai Huat Jason
+void DisplayOrdersInQueue(Queue<Order> orderQueue)
+{
+    // Validation to check that orderQueue is not empty
+    if (orderQueue.Count > 0)
     {
-        Console.WriteLine(orders);
+        // For loop to print out order details using ToString() method
+        foreach (Order order in orderQueue)
+        {
+            Console.WriteLine(order);
+        }
+    }
+    else
+    {
+        Console.WriteLine("No orders in the queue.");
     }
 }
 
-// Done By: Yeo Jin Rong
-// Method to display menu
+
+// Method to display menu for Main()
+// Done By: Ng Kai Huat Jason
 void DisplayMenu()
 {
-    // List to store menu options
     List<string> menuOptions = new List<string>
                 {
                     "List all customers",
                     "List all current orders",
+                    "Register a new customer",
+                    "Create a customer’s order",
+                    "Display order details of customer",
+                    "Modify Order Details",
+                    "Process Order and Checkout",
+                    "Display monthly charged amounts breakdown & total charged amounts for the year",
+                    "Post Customer & Orders to REST Database",
                     "Exit"
                 };
     Console.WriteLine("\nMenu");
-    // For loop to print options
     for (int i = 0; i < menuOptions.Count - 1; i++)
     {
         Console.WriteLine($"[{i + 1}]. {menuOptions[i]}");
     }
     Console.WriteLine($"[0]. {menuOptions[9]}");
 }
-
-Main();
-Console.Read();
