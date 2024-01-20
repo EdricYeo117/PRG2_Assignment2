@@ -54,7 +54,10 @@ namespace T03_Group02_PRG2Assignment
             Toppings = toppings;
         }
 
+        // Abstract method to calculate price, override in sub-class
         public abstract double CalculatePrice();
+
+        // Override ToString() method to display ice cream details in a table format
         public override string ToString()
         {
             StringBuilder table = new StringBuilder();

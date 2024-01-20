@@ -23,6 +23,7 @@ namespace T03_Group02_PRG2Assignment
             Dipped = dipped;
         }
 
+        // Method to calculate price, overrides abstract method in IceCream base class
         public override double CalculatePrice()
         {
             double basePrice;

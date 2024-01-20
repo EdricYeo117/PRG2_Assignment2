@@ -21,6 +21,7 @@ namespace T03_Group02_PRG2Assignment
 
         public PointCard() { }
 
+        // Constructor to initialize PointCard object, settings Tier to "Ordinary" by default
         public PointCard(int points, int punchCard)
         {
             Points = points;

@@ -33,17 +33,20 @@ namespace T03_Group02_PRG2Assignment
             Rewards = new PointCard(0, 0);
         }
 
+        // Method to create a new order for CurrentOrder, if CurrentOrder already exists, return null
         public Order MakeOrder()
         {
             if (CurrentOrder == null)
             {
                 int orderId = OrderHistory.Count + 1;
-                DateTime TimeRecieved = DateTime.Now;
-                Order order = new Order(orderId, TimeRecieved);
+                DateTime timeReceived = DateTime.Now;
+                Order order = new Order(orderId, timeReceived);
+                CurrentOrder = order;  // Set CurrentOrder to the new order
                 return order;
             }
             else
             {
+                Console.WriteLine("You already have an active order. Complete or cancel the current order before creating a new one.");
                 return null;
             }
         }

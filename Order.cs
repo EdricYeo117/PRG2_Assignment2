@@ -22,6 +22,7 @@ namespace T03_Group02_PRG2Assignment
         {
         }
 
+        // Constructor class sets TimeFulfilled as null, and initializes IceCreamList
         public Order(int id, DateTime timeReceived)
         {
             Id = id;
@@ -30,6 +31,7 @@ namespace T03_Group02_PRG2Assignment
             IceCreamList = new List<IceCream>();
         }
 
+        // Method to modify an ice cream in the order, uses same logic as Option 4 but uses strings as inputs for smooth validation (unable to implement menus)
         public void ModifyIceCream(int iceCreamIndex)
         {
             if (iceCreamIndex < 0 || iceCreamIndex >= IceCreamList.Count)
@@ -206,6 +208,7 @@ namespace T03_Group02_PRG2Assignment
             }
         }
 
+        // Method to add an ice cream to the order, downcasts the ice cream object to the appropriate subclass
         public void AddIceCream(IceCream iceCream)
         {
             switch (iceCream.Option.ToLower())
@@ -224,6 +227,7 @@ namespace T03_Group02_PRG2Assignment
             }
         }
 
+        // Method to delete an icecream from IceCreamList by index
         public void DeleteIceCream(int icecreamno)
         {
             if (IceCreamList.Count == 0)
@@ -243,6 +247,7 @@ namespace T03_Group02_PRG2Assignment
             Console.WriteLine($"Ice cream removed: {removedIceCream}");
         }
 
+        // Method that takes advantage of dynamic binding to calculate the total cost of the order
         public double CalculateTotal()
         {
             double totalCost = 0.0;

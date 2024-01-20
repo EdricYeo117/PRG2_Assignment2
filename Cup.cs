@@ -17,6 +17,8 @@ namespace T03_Group02_PRG2Assignment
         public Cup() : base() { }
 
         public Cup(string option, int scoops, List<Flavour> flavours, List<Topping> toppings) : base(option, scoops, flavours, toppings) { }
+
+        // Method to calculate price, overrides abstract method in IceCream base class
         public override double CalculatePrice()
         {
             double basePrice;
