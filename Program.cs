@@ -11,8 +11,9 @@ using T03_Group02_PRG2Assignment;
 // Partner Name : Jason Ng
 //=========================================================
 
-// Done By : Yeo Jin Rong
+
 // Method of main loop to execute programme
+// Done By : Yeo Jin Rong
 void Main()
 {
     Queue<Order> regularQueue = new Queue<Order>();
@@ -43,10 +44,9 @@ void Main()
             Console.WriteLine("Key in a valid option.");
         }
     }
-
 }
-// Done By : Yeo Jin Rong
-// Method to pull information from csv file to read customer information
+
+
 // Method to initialise customer information from customers.csv
 // Done By: Yeo Jin Rong
 void InitCustomers(Dictionary<int, Customer> customers)
