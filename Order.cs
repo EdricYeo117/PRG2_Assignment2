@@ -86,9 +86,15 @@ namespace T03_Group02_PRG2Assignment
 
             for (int i = 0; i < numberOfFlavours; i++)
             {
+                if (totalQuantity == scoops)
+                {
+                    Console.WriteLine("Total quantity already equals the number of scoops. Skipping remaining flavours.");
+                    break;
+                }
+                // do while 
                 Console.Write($"Enter flavour {i + 1} (vanila/chocolate/strawberry/durian/sea salt/ube): ");
                 string flavourType = Console.ReadLine().ToLower().Trim().Replace(" ", "");
-                string[] validFlavours = { "vanilla", "chocolate", "strawberry", "seasalt", "durian", "ube" };
+                string[] validFlavours = { "vanila", "chocolate", "strawberry", "seasalt", "durian", "ube" };
                 string[] premiumFlavours = { "durian", "ube", "seasalt" };
 
                 // Validation to check if a valid flavour and not duplicate
@@ -96,23 +102,31 @@ namespace T03_Group02_PRG2Assignment
                 {
                     //Validate if premium flavour
                     bool isPremium = premiumFlavours.Contains(flavourType);
+                    int remainingScoops = scoops - totalQuantity;
                     //Validate if quantity > 0
                     int quantity;
-                    do
+                    if (i == numberOfFlavours - 1)
                     {
-                        Console.Write($"Enter the quantity (must be greater than 0): ");
-                    } while (!int.TryParse(Console.ReadLine(), out quantity) || quantity <= 0);
+                        quantity = remainingScoops;
+                    }
+                    else
+                    {
+                        // For subsequent flavors, prompt the user to enter a valid quantity
+                        do
+                        {
+                            Console.Write($"Enter the quantity (must be greater than 0 and not exceed remaining scoops {remainingScoops}): ");
 
-                    // Validate no additional scoops
+                            // Read and validate user input for quantity, must be positive, non-zero and <= remainingScoops
+                            if (!int.TryParse(Console.ReadLine(), out quantity) || quantity <= 0 || quantity > remainingScoops)
+                            {
+                                Console.WriteLine("Invalid input. Please enter a valid quantity.");
+                            }
+                        } while (quantity <= 0 || quantity > remainingScoops);
+                    }
                     if (totalQuantity + quantity <= scoops)
                     {
                         flavours.Add(new Flavour(flavourType, isPremium, quantity));
                         totalQuantity += quantity;  // Update the total quantity
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Total quantity exceeds the number of scoops. Skipping this flavour.");
-                        i--; // Decrement i to re-enter the current flavour
                     }
                 }
                 else
@@ -121,25 +135,30 @@ namespace T03_Group02_PRG2Assignment
                     i--; // Decrement i to re-enter the current flavour
                 }
             }
-
             // Validate that the total quantity of flavours matches the number of scoops
             if (totalQuantity != scoops)
             {
                 Console.WriteLine($"Total quantity of flavours ({totalQuantity}) does not match the number of scoops ({scoops}).");
                 flavours.Clear(); // Clear the list if the total quantity is not correct
             }
-            int totalFlavourQuantity = flavours.Sum(f => f.Quantity);
-            if (scoops != totalFlavourQuantity)
-            {
-                Console.WriteLine($"Error: The number of scoops ({scoops}) does not match the total quantity of flavours ({totalFlavourQuantity}). Ice cream modification aborted.");
-                return;
-            }
-
             //Get Toppings
             List<Topping> toppings = new List<Topping>();
-            Console.Write("Enter the number of toppings (up to 4): ");
-            int numberOfToppings = Convert.ToInt32(Console.ReadLine());
             string[] validToppings = { "sprinkles", "mochi", "sago", "oreos" };
+            int numberOfToppings;
+            do
+            {
+                Console.Write($"Enter the number of toppings (up to {validToppings.Length}): ");
+                // Validate that toppings is not out of range
+                if (!int.TryParse(Console.ReadLine(), out numberOfToppings) || numberOfToppings < 0 || numberOfToppings > validToppings.Length)
+                {
+                    Console.WriteLine($"Invalid input for the number of toppings. Please enter a number between 0 and {validToppings.Length}.");
+                }
+                else
+                {
+                    // User input is valid, break out of the loop
+                    break;
+                }
+            } while (true); // Continue prompting until a valid input is provided
             for (int i = 0; i < numberOfToppings; i++)
             {
                 Console.Write($"Enter topping {i + 1} (sprinkles/mochi/sago/oreos): ");
