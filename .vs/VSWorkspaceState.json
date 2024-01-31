@@ -3,8 +3,9 @@
     "",
     "\\bin",
     "\\bin\\Debug",
-    "\\bin\\Debug\\net6.0"
+    "\\bin\\Debug\\net6.0",
+    "\\bin\\Release"
   ],
-  "SelectedNode": "\\Program.cs",
+  "SelectedNode": "\\bin\\Debug\\net6.0\\orders.csv",
   "PreviewInSolutionExplorer": false
 }

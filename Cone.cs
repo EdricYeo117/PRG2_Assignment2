@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 //==========================================================
 // Student Number : S10258457
 // Student Name : Yeo Jin Rong
-// Partner Name : Jason Ng
+// Partner Name : Ng Kai Huat Jason
 //=========================================================
 // Done By: Ng Kai Huat Jason
 
@@ -44,6 +44,15 @@ namespace T03_Group02_PRG2Assignment
                     throw new InvalidOperationException("Invalid number of scoops");
             }
 
+            // Add $2 for each premium flavour
+            foreach (Flavour flavour in Flavours)
+            {
+                if (flavour.Premium)
+                {
+                    basePrice += flavour.Quantity * 2.00;
+                }
+            }
+
             // Add $1 for each topping
             double toppingPrice = Toppings.Count * 1.00;
 
@@ -56,7 +65,7 @@ namespace T03_Group02_PRG2Assignment
         }
         public override string ToString()
         {
-            return $"{base.ToString()}\tPrice: ${CalculatePrice():F2}";
+            return $"{base.ToString()}Dipped: {Dipped.ToString()}\n-----------------------------------\nPrice: ${CalculatePrice():F2}";
         }
     }
 }

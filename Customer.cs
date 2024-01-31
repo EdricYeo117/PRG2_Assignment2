@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 //==========================================================
 // Student Number : S10258457
 // Student Name : Yeo Jin Rong
-// Partner Name : Jason Ng
+// Partner Name : Ng Kai Huat Jason
 //=========================================================
 // Done By: Yeo Jin Rong
 namespace T03_Group02_PRG2Assignment
@@ -38,7 +38,7 @@ namespace T03_Group02_PRG2Assignment
         {
             if (CurrentOrder == null)
             {
-                int orderId = OrderHistory.Count + 1;
+                int orderId = OrderHistory.Count + 1; // This orderid will be changed externally with a global variable, just a placeholder
                 DateTime timeReceived = DateTime.Now;
                 Order order = new Order(orderId, timeReceived);
                 CurrentOrder = order;  // Set CurrentOrder to the new order
@@ -49,6 +49,10 @@ namespace T03_Group02_PRG2Assignment
                 Console.WriteLine("You already have an active order. Complete or cancel the current order before creating a new one.");
                 return null;
             }
+        }
+        public bool IsBirthday()
+        {
+            return DOB.Month == DateTime.Now.Month && DOB.Day == DateTime.Now.Day;
         }
 
         public override string ToString()

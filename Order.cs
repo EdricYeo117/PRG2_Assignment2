@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 //==========================================================
 // Student Number : S10258457
 // Student Name : Yeo Jin Rong
-// Partner Name : Jason Ng
+// Partner Name : Ng Kai Huat Jason
 //=========================================================
 // Done By: Yeo Jin Rong
 namespace T03_Group02_PRG2Assignment
@@ -14,7 +14,7 @@ namespace T03_Group02_PRG2Assignment
     class Order
     {
         public int Id { get; set; }
-        public DateTime TimeRecieved { get; set; }
+        public DateTime TimeReceived { get; set; }
         public DateTime? TimeFulfilled { get; set; }
         public List<IceCream> IceCreamList { get; set; }
 
@@ -26,7 +26,7 @@ namespace T03_Group02_PRG2Assignment
         public Order(int id, DateTime timeReceived)
         {
             Id = id;
-            TimeRecieved = timeReceived;
+            TimeReceived = timeReceived;
             TimeFulfilled = null;
             IceCreamList = new List<IceCream>();
         }
@@ -75,7 +75,7 @@ namespace T03_Group02_PRG2Assignment
             // Validate number of flavours 1 <= x <= 3, and is int
             do
             {
-                Console.Write($"Enter the number of flavours (up to {scoops}) (vanila/chocolate/strawberry/durian/sea salt/ube): ");
+                Console.Write($"Enter the number of flavours (up to {scoops}) (vanilla/chocolate/strawberry/durian/sea salt/ube): ");
                 numberOfFlavours = Convert.ToInt32(Console.ReadLine());
 
                 if (numberOfFlavours > scoops)
@@ -92,9 +92,9 @@ namespace T03_Group02_PRG2Assignment
                     break;
                 }
                 // do while 
-                Console.Write($"Enter flavour {i + 1} (vanila/chocolate/strawberry/durian/sea salt/ube): ");
+                Console.Write($"Enter flavour {i + 1} (vanilla/chocolate/strawberry/durian/sea salt/ube): ");
                 string flavourType = Console.ReadLine().ToLower().Trim().Replace(" ", "");
-                string[] validFlavours = { "vanila", "chocolate", "strawberry", "seasalt", "durian", "ube" };
+                string[] validFlavours = { "vanilla", "chocolate", "strawberry", "seasalt", "durian", "ube" };
                 string[] premiumFlavours = { "durian", "ube", "seasalt" };
 
                 // Validation to check if a valid flavour and not duplicate
@@ -297,7 +297,7 @@ namespace T03_Group02_PRG2Assignment
 
             string timeFulfilledString = TimeFulfilled.HasValue ? TimeFulfilled.Value.ToShortDateString() : "Not fulfilled yet";
             string header = string.Format("{0,-15} {1,-15} {2,-15}", "Order ID", "Time Received", "Time Fulfilled");
-            string orderDetailsFormatted = string.Format("{0,-15} {1,-15} {2,-15}", Id, TimeRecieved.ToShortDateString(), timeFulfilledString);
+            string orderDetailsFormatted = string.Format("{0,-15} {1,-15} {2,-15}", Id, TimeReceived.ToShortDateString(), timeFulfilledString);
 
             return $"{header}\n{orderDetailsFormatted}\n{orderDetails}";
         }

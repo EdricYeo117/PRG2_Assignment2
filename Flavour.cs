@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 //==========================================================
 // Student Number : S10258457
 // Student Name : Yeo Jin Rong
-// Partner Name : Jason Ng
+// Partner Name : Ng Kai Huat Jason
 //=========================================================
 // Done By: Ng Kai Huat Jason
 namespace T03_Group02_PRG2Assignment

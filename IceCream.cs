@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 //==========================================================
 // Student Number : S10258457
 // Student Name : Yeo Jin Rong
-// Partner Name : Jason Ng
+// Partner Name : Ng Kai Huat Jason
 //=========================================================
 // Done By: Yeo Jin Rong
 namespace T03_Group02_PRG2Assignment
@@ -63,7 +63,7 @@ namespace T03_Group02_PRG2Assignment
             StringBuilder table = new StringBuilder();
 
             table.AppendLine("----------------------------------");
-            table.AppendLine($"Option : {Option,-15}");
+            table.AppendLine($"Option: {Option,-15}");
             table.AppendLine("----------------------------------");
             table.AppendLine($"Scoops: {Scoops,-15}");
             table.AppendLine("----------------------------------");
